@@ -18,6 +18,18 @@ struct Position {
     
     var rank: Int
     var file: String
+    
+    var rankIndex: Int {
+        return rank-1
+    }
+    
+    var fileIndex: Int? {
+        let validFiles = Array("ABCDEFGH")
+        if let index = validFiles.firstIndex(where: { "\($0)" == file }) {
+            return validFiles.distance(from: validFiles.startIndex, to: index)
+        }
+        return nil
+    }
 }
 
 enum Team {
@@ -105,5 +117,12 @@ class Board {
             pieces.append(files)
         }
         self.pieces = pieces
+    }
+    
+    func findPiece(at position: Position) -> PieceType? {
+        if position.rankIndex < self.pieces.count, let fileIndex = position.fileIndex {
+            return self.pieces[position.rankIndex][fileIndex]
+        }
+        return nil
     }
 }
