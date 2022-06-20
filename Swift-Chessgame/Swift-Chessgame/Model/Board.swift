@@ -58,4 +58,52 @@ struct Queen: PieceType {
 
 class Board {
     
+    private var pieces: [[PieceType?]]
+    
+    init() {
+        var pieces = [[PieceType?]]()
+        for rank in 1...8 {
+            guard [1, 2, 7, 8].contains(rank) else {
+                let emptyRank = [PieceType?](repeating: nil, count: 8)
+                pieces.append(emptyRank)
+                continue
+            }
+
+            let team: Team = (rank == 1 || rank == 2) ? .white : .black
+
+            if rank == 2 || rank == 7 {
+                let pawnRank = "ABCDEFGH".map { file in
+                    return Pawn(position: .init(rank: rank, file: "\(file)"), team: team)
+                }
+                pieces.append(pawnRank)
+                continue
+            }
+
+            var files = [PieceType?]()
+            for file in "ABCDEFGH" {
+                let position = Position(rank: rank, file: String(file))
+                if file == "A" || file == "H" {
+                    files.append(Luke(position: position, team: team))
+                }
+                
+                if file == "B" || file == "G" {
+                    files.append(Knight(position: position, team: team))
+                }
+                
+                if file == "C" || file == "F" {
+                    files.append(Bishop(position: position, team: team))
+                }
+                
+                if file == "D" {
+                    files.append(nil)
+                }
+                
+                if file == "E" {
+                    files.append(Queen(position: position, team: team))
+                }
+            }
+            pieces.append(files)
+        }
+        self.pieces = pieces
+    }
 }
