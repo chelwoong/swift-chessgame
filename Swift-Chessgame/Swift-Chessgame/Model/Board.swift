@@ -10,8 +10,9 @@ import Foundation
 
 protocol PieceType {
     
-    var position: Position { get }
     var team: Team { get }
+    var score: Int { get }
+    var position: Position { get set }
 }
 
 struct Position {
@@ -40,32 +41,37 @@ enum Team {
 
 struct Pawn: PieceType {
     
-    var position: Position
     let team: Team
+    let score = 1
+    var position: Position
 }
 
 struct Knight: PieceType {
     
-    var position: Position
     let team: Team
+    let score = 3
+    var position: Position
 }
 
 struct Bishop: PieceType {
     
-    var position: Position
     let team: Team
+    let score = 3
+    var position: Position
 }
 
 struct Luke: PieceType {
     
-    var position: Position
     let team: Team
+    let score = 5
+    var position: Position
 }
 
 struct Queen: PieceType {
     
-    var position: Position
     let team: Team
+    let score = 9
+    var position: Position
 }
 
 class Board {
@@ -85,7 +91,7 @@ class Board {
 
             if rank == 2 || rank == 7 {
                 let pawnRank = "ABCDEFGH".map { file in
-                    return Pawn(position: .init(rank: rank, file: "\(file)"), team: team)
+                    return Pawn(team: team, position: .init(rank: rank, file: "\(file)"))
                 }
                 pieces.append(pawnRank)
                 continue
@@ -95,15 +101,15 @@ class Board {
             for file in "ABCDEFGH" {
                 let position = Position(rank: rank, file: String(file))
                 if file == "A" || file == "H" {
-                    files.append(Luke(position: position, team: team))
+                    files.append(Luke(team: team, position: position))
                 }
                 
                 if file == "B" || file == "G" {
-                    files.append(Knight(position: position, team: team))
+                    files.append(Knight(team: team, position: position))
                 }
                 
                 if file == "C" || file == "F" {
-                    files.append(Bishop(position: position, team: team))
+                    files.append(Bishop(team: team, position: position))
                 }
                 
                 if file == "D" {
@@ -111,7 +117,7 @@ class Board {
                 }
                 
                 if file == "E" {
-                    files.append(Queen(position: position, team: team))
+                    files.append(Queen(team: team, position: position))
                 }
             }
             pieces.append(files)
