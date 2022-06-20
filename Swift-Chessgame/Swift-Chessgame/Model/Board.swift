@@ -80,47 +80,36 @@ class Board {
     
     init() {
         var pieces = [[PieceType?]]()
+        
         for rank in 1...8 {
-            guard [1, 2, 7, 8].contains(rank) else {
-                let emptyRank = [PieceType?](repeating: nil, count: 8)
-                pieces.append(emptyRank)
-                continue
-            }
-
             let team: Team = (rank == 1 || rank == 2) ? .white : .black
-
-            if rank == 2 || rank == 7 {
+            
+            let isPawnRank = rank == 2 || rank == 7
+            if isPawnRank {
                 let pawnRank = "ABCDEFGH".map { file in
                     return Pawn(team: team, position: .init(rank: rank, file: "\(file)"))
                 }
                 pieces.append(pawnRank)
                 continue
             }
-
-            var files = [PieceType?]()
-            for file in "ABCDEFGH" {
-                let position = Position(rank: rank, file: String(file))
-                if file == "A" || file == "H" {
-                    files.append(Luke(team: team, position: position))
-                }
-                
-                if file == "B" || file == "G" {
-                    files.append(Knight(team: team, position: position))
-                }
-                
-                if file == "C" || file == "F" {
-                    files.append(Bishop(team: team, position: position))
-                }
-                
-                if file == "D" {
-                    files.append(nil)
-                }
-                
-                if file == "E" {
-                    files.append(Queen(team: team, position: position))
-                }
+            
+            let isFirstRankOfEachTeam = rank == 1 || rank == 8
+            if isFirstRankOfEachTeam {
+                pieces.append([
+                    Luke(team: team, position: Position(rank: rank, file: "A")),
+                    Knight(team: team, position: Position(rank: rank, file: "B")),
+                    Bishop(team: team, position: Position(rank: rank, file: "C")),
+                    nil,
+                    Queen(team: team, position: Position(rank: rank, file: "E")),
+                    Bishop(team: team, position: Position(rank: rank, file: "F")),
+                    Knight(team: team, position: Position(rank: rank, file: "G")),
+                    Luke(team: team, position: Position(rank: rank, file: "H"))
+                ])
+                continue
             }
-            pieces.append(files)
+            
+            let emptyPiecesRank = [PieceType?](repeating: nil, count: 8)
+            pieces.append(emptyPiecesRank)
         }
         self.pieces = pieces
     }
