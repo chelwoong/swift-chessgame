@@ -12,24 +12,20 @@ protocol PieceType {
     
     var team: Team { get }
     var score: Int { get }
-    var position: Position { get set }
+    var position: ChessPosition { get set }
 }
 
-struct Position {
+struct ChessPosition {
     
-    var rank: Int
-    var file: String
+    var row: File
+    var column: Rank
     
-    var rankIndex: Int {
-        return rank - 1
+    enum File: Int, CaseIterable {
+        case one = 0, two, three, four, five, six, seven, eight
     }
     
-    var fileIndex: Int? {
-        let validFiles = Array("ABCDEFGH")
-        if let index = validFiles.firstIndex(where: { "\($0)" == file }) {
-            return validFiles.distance(from: validFiles.startIndex, to: index)
-        }
-        return nil
+    enum Rank: Int, CaseIterable {
+        case a = 0, b, c, d, e, f, g, h
     }
 }
 
@@ -43,33 +39,33 @@ struct Pawn: PieceType {
     
     let team: Team
     let score = 1
-    var position: Position
+    var position: ChessPosition
 }
 
 struct Knight: PieceType {
     
     let team: Team
     let score = 3
-    var position: Position
+    var position: ChessPosition
 }
 
 struct Bishop: PieceType {
     
     let team: Team
     let score = 3
-    var position: Position
+    var position: ChessPosition
 }
 
 struct Luke: PieceType {
     
     let team: Team
     let score = 5
-    var position: Position
+    var position: ChessPosition
 }
 
 struct Queen: PieceType {
     
     let team: Team
     let score = 9
-    var position: Position
+    var position: ChessPosition
 }

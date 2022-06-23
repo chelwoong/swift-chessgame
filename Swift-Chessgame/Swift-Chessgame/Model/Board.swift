@@ -15,29 +15,29 @@ class Board {
     init() {
         var pieces = [[PieceType?]]()
         
-        for rank in 1...8 {
-            let team: Team = (rank == 1 || rank == 2) ? .white : .black
+        for file in ChessPosition.File.allCases {
+            let team: Team = (file == .one || file == .two) ? .white : .black
             
-            let isPawnRank = rank == 2 || rank == 7
-            if isPawnRank {
-                let pawnRank = "ABCDEFGH".map { file in
-                    return Pawn(team: team, position: .init(rank: rank, file: "\(file)"))
+            let isPawnRow = file == .two || file == .seven
+            if isPawnRow {
+                let pawnRow = ChessPosition.Rank.allCases.map { rank in
+                    return Pawn(team: team, position: ChessPosition(row: file, column: rank))
                 }
-                pieces.append(pawnRank)
+                pieces.append(pawnRow)
                 continue
             }
             
-            let isFirstRankOfEachTeam = rank == 1 || rank == 8
+            let isFirstRankOfEachTeam = file == .one || file == .eight
             if isFirstRankOfEachTeam {
                 pieces.append([
-                    Luke(team: team, position: Position(rank: rank, file: "A")),
-                    Knight(team: team, position: Position(rank: rank, file: "B")),
-                    Bishop(team: team, position: Position(rank: rank, file: "C")),
+                    Luke(team: team, position: ChessPosition(row: file, column: .a)),
+                    Knight(team: team, position: ChessPosition(row: file, column: .b)),
+                    Bishop(team: team, position: ChessPosition(row: file, column: .c)),
                     nil,
-                    Queen(team: team, position: Position(rank: rank, file: "E")),
-                    Bishop(team: team, position: Position(rank: rank, file: "F")),
-                    Knight(team: team, position: Position(rank: rank, file: "G")),
-                    Luke(team: team, position: Position(rank: rank, file: "H"))
+                    Queen(team: team, position: ChessPosition(row: file, column: .e)),
+                    Bishop(team: team, position: ChessPosition(row: file, column: .f)),
+                    Knight(team: team, position: ChessPosition(row: file, column: .g)),
+                    Luke(team: team, position: ChessPosition(row: file, column: .h))
                 ])
                 continue
             }
@@ -48,10 +48,7 @@ class Board {
         self.pieces = pieces
     }
     
-    func findPiece(at position: Position) -> PieceType? {
-        if position.rankIndex < self.pieces.count, let fileIndex = position.fileIndex {
-            return self.pieces[position.rankIndex][fileIndex]
-        }
-        return nil
+    func findPiece(at position: ChessPosition) -> PieceType? {
+        return self.pieces[position.row.rawValue][position.column.rawValue]
     }
 }
