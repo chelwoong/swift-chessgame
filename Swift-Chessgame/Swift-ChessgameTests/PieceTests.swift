@@ -19,51 +19,33 @@ class PieceTests: XCTestCase {
         
     }
     
-    func test_pawn_movablePosition_at_leftTopEdge() {
-        // given
-        let pawn = Pawn(team: .white, position: .init(row: .one, column: .a))
-        let rightPosition = ChessPosition(row: .one, column: .b)
-        let downPosition = ChessPosition(row: .two, column: .a)
-        
-        // when
-        let movablePositions = pawn.movablePositions()
-        
-        // then
-        XCTAssertTrue(movablePositions.contains(rightPosition))
-        XCTAssertTrue(movablePositions.contains(downPosition))
-    }
-    
-    func test_pawn_movablePosition_at_rightDownEdge() {
-        // given
-        let pawn = Pawn(team: .white, position: .init(row: .eight, column: .h))
-        let leftPosition = ChessPosition(row: .seven, column: .h)
-        let upPosition = ChessPosition(row: .eight, column: .g)
-        
-        // when
-        let movablePositions = pawn.movablePositions()
-        
-        // then
-        XCTAssertTrue(movablePositions.contains(leftPosition))
-        XCTAssertTrue(movablePositions.contains(upPosition))
-    }
-    
-    func test_pawn_movablePosition_at_inside() {
+    func test_white_pawn_movablePosition() {
         // given
         let pawn = Pawn(team: .white, position: .init(row: .two, column: .b))
         
-        let upPosition = ChessPosition(row: .one, column: .b)
-        let downPosition = ChessPosition(row: .three, column: .b)
-        let leftPosition = ChessPosition(row: .two, column: .a)
-        let rightPosition = ChessPosition(row: .two, column: .c)
+        // when
+        let movablePositions = pawn.movablePositions()
         
+        // then
+        XCTAssertEqual(movablePositions, [
+            ChessPosition(row: .three, column: .b),
+            ChessPosition(row: .two, column: .a),
+            ChessPosition(row: .two, column: .c)
+        ])
+    }
+    
+    func test_black_pawn_movablePosition() {
+        // given
+        let pawn = Pawn(team: .black, position: .init(row: .seven, column: .b))
         
         // when
         let movablePositions = pawn.movablePositions()
         
         // then
-        XCTAssertTrue(movablePositions.contains(upPosition))
-        XCTAssertTrue(movablePositions.contains(downPosition))
-        XCTAssertTrue(movablePositions.contains(leftPosition))
-        XCTAssertTrue(movablePositions.contains(rightPosition))
+        XCTAssertEqual(movablePositions, [
+            ChessPosition(row: .six, column: .b),
+            ChessPosition(row: .seven, column: .a),
+            ChessPosition(row: .seven, column: .c)
+        ])
     }
 }
