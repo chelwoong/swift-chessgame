@@ -56,6 +56,22 @@ struct ChessPosition: Equatable {
         }
         return ChessPosition(row: self.row, column: rightCol)
     }
+    
+    func upperLeftDiagonal() -> ChessPosition? {
+        return self.up()?.left()
+    }
+    
+    func upperRightDiagonal() -> ChessPosition? {
+        return self.up()?.right()
+    }
+    
+    func bottomLeftDiagonal() -> ChessPosition? {
+        return self.down()?.left()
+    }
+    
+    func bottomRightDiagonal() -> ChessPosition? {
+        return self.down()?.right()
+    }
 }
 
 enum Team {
@@ -72,8 +88,7 @@ struct Pawn: PieceType {
     
     func movablePositions() -> [ChessPosition] {
         return [
-            self.position.up(),
-            self.position.down(),
+            team == .white ? self.position.down() : self.position.up(),
             self.position.left(),
             self.position.right()
         ].compactMap { $0 }
@@ -87,7 +102,12 @@ struct Knight: PieceType {
     var position: ChessPosition
     
     func movablePositions() -> [ChessPosition] {
-        return []
+        return [
+            self.position.up()?.upperRightDiagonal(),
+            self.position.up()?.upperLeftDiagonal(),
+            self.position.down()?.bottomLeftDiagonal(),
+            self.position.down()?.bottomRightDiagonal(),
+        ].compactMap { $0 }
     }
 }
 
@@ -98,7 +118,29 @@ struct Bishop: PieceType {
     var position: ChessPosition
     
     func movablePositions() -> [ChessPosition] {
-        return []
+        var movablePositions = [ChessPosition]()
+        
+        var current = self.position
+        while let next = current.upperRightDiagonal() {
+            movablePositions.append(next)
+        }
+        
+        current = self.position
+        while let next = current.upperLeftDiagonal() {
+            movablePositions.append(next)
+        }
+        
+        current = self.position
+        while let next = current.bottomRightDiagonal() {
+            movablePositions.append(next)
+        }
+        
+        current = self.position
+        while let next = current.bottomLeftDiagonal() {
+            movablePositions.append(next)
+        }
+        
+        return movablePositions
     }
 }
 
@@ -109,7 +151,29 @@ struct Rook: PieceType {
     var position: ChessPosition
     
     func movablePositions() -> [ChessPosition] {
-        return []
+        var movablePositions = [ChessPosition]()
+        
+        var current = self.position
+        while let next = current.up() {
+            movablePositions.append(next)
+        }
+        
+        current = self.position
+        while let next = current.down() {
+            movablePositions.append(next)
+        }
+        
+        current = self.position
+        while let next = current.left() {
+            movablePositions.append(next)
+        }
+        
+        current = self.position
+        while let next = current.right() {
+            movablePositions.append(next)
+        }
+        
+        return movablePositions
     }
 }
 
@@ -120,6 +184,48 @@ struct Queen: PieceType {
     var position: ChessPosition
     
     func movablePositions() -> [ChessPosition] {
-        return []
+        var movablePositions = [ChessPosition]()
+        
+        var current = self.position
+        while let next = current.upperRightDiagonal() {
+            movablePositions.append(next)
+        }
+        
+        current = self.position
+        while let next = current.upperLeftDiagonal() {
+            movablePositions.append(next)
+        }
+        
+        current = self.position
+        while let next = current.bottomRightDiagonal() {
+            movablePositions.append(next)
+        }
+        
+        current = self.position
+        while let next = current.bottomLeftDiagonal() {
+            movablePositions.append(next)
+        }
+        
+        current = self.position
+        while let next = current.up() {
+            movablePositions.append(next)
+        }
+        
+        current = self.position
+        while let next = current.down() {
+            movablePositions.append(next)
+        }
+        
+        current = self.position
+        while let next = current.left() {
+            movablePositions.append(next)
+        }
+        
+        current = self.position
+        while let next = current.right() {
+            movablePositions.append(next)
+        }
+        
+        return movablePositions
     }
 }
