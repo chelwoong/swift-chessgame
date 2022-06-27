@@ -16,7 +16,7 @@ protocol PieceType {
     func movablePositions() -> [ChessPosition]
 }
 
-struct ChessPosition {
+struct ChessPosition: Equatable {
     
     var row: File
     var column: Rank
@@ -27,6 +27,34 @@ struct ChessPosition {
     
     enum Rank: Int, CaseIterable {
         case a = 0, b, c, d, e, f, g, h
+    }
+    
+    func up() -> ChessPosition? {
+        guard let upRow = File(rawValue: self.row.rawValue - 1) else {
+            return nil
+        }
+        return ChessPosition(row: upRow, column: self.column)
+    }
+    
+    func down() -> ChessPosition? {
+        guard let downRow = File(rawValue: self.row.rawValue + 1) else {
+            return nil
+        }
+        return ChessPosition(row: downRow, column: self.column)
+    }
+    
+    func left() -> ChessPosition? {
+        guard let leftCol = Rank(rawValue: self.column.rawValue - 1) else {
+            return nil
+        }
+        return ChessPosition(row: self.row, column: leftCol)
+    }
+    
+    func right() -> ChessPosition? {
+        guard let rightCol = Rank(rawValue: self.column.rawValue + 1) else {
+            return nil
+        }
+        return ChessPosition(row: self.row, column: rightCol)
     }
 }
 
@@ -43,7 +71,12 @@ struct Pawn: PieceType {
     var position: ChessPosition
     
     func movablePositions() -> [ChessPosition] {
-        return []
+        return [
+            self.position.up(),
+            self.position.down(),
+            self.position.left(),
+            self.position.right()
+        ].compactMap { $0 }
     }
 }
 

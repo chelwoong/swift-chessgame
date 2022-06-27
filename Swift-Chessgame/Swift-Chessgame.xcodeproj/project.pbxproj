@@ -16,6 +16,7 @@
 		363A32CE286050860077655A /* BoardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363A32CD286050860077655A /* BoardTests.swift */; };
 		363A32D12860523F0077655A /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363A32D02860523F0077655A /* Board.swift */; };
 		363A32D328607B440077655A /* Piece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363A32D228607B440077655A /* Piece.swift */; };
+		366D1324286987B1009FC965 /* PieceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366D1323286987B1009FC965 /* PieceTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +42,7 @@
 		363A32CD286050860077655A /* BoardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTests.swift; sourceTree = "<group>"; };
 		363A32D02860523F0077655A /* Board.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
 		363A32D228607B440077655A /* Piece.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Piece.swift; sourceTree = "<group>"; };
+		366D1323286987B1009FC965 /* PieceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieceTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				363A32CD286050860077655A /* BoardTests.swift */,
+				366D1323286987B1009FC965 /* PieceTests.swift */,
 			);
 			path = "Swift-ChessgameTests";
 			sourceTree = "<group>";
@@ -224,6 +227,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				366D1324286987B1009FC965 /* PieceTests.swift in Sources */,
 				363A32CE286050860077655A /* BoardTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
