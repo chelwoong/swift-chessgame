@@ -33,14 +33,14 @@ class Board {
             let isFirstRankOfEachTeam = file == .one || file == .eight
             if isFirstRankOfEachTeam {
                 pieces.append([
-                    Luke(team: team, position: ChessPosition(row: file, column: .a)),
+                    Rook(team: team, position: ChessPosition(row: file, column: .a)),
                     Knight(team: team, position: ChessPosition(row: file, column: .b)),
                     Bishop(team: team, position: ChessPosition(row: file, column: .c)),
                     nil,
                     Queen(team: team, position: ChessPosition(row: file, column: .e)),
                     Bishop(team: team, position: ChessPosition(row: file, column: .f)),
                     Knight(team: team, position: ChessPosition(row: file, column: .g)),
-                    Luke(team: team, position: ChessPosition(row: file, column: .h))
+                    Rook(team: team, position: ChessPosition(row: file, column: .h))
                 ])
                 continue
             }

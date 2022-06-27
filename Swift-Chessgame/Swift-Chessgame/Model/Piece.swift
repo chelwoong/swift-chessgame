@@ -102,7 +102,7 @@ struct Bishop: PieceType {
     }
 }
 
-struct Luke: PieceType {
+struct Rook: PieceType {
     
     let team: Team
     let score = 5

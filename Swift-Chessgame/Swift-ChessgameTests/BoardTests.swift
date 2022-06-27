@@ -47,28 +47,28 @@ class BoardTests: XCTestCase {
         }
     }
     
-    func test_luke_when_init_board() {
+    func test_rook_when_init_board() {
         // given
-        let whiteLukes = [
+        let whiteRooks = [
             self.sut.findPiece(at: ChessPosition(row: .one, column: .a)),
             self.sut.findPiece(at: ChessPosition(row: .one, column: .h)),
         ]
-        let blackLukes = [
+        let blackRooks = [
             self.sut.findPiece(at: ChessPosition(row: .eight, column: .a)),
             self.sut.findPiece(at: ChessPosition(row: .eight, column: .h))
         ]
         
         // then
-        whiteLukes.forEach { piece in
-            let luke = piece as? Luke
-            XCTAssertNotNil(luke)
-            XCTAssertEqual(luke?.team, .white)
+        whiteRooks.forEach { piece in
+            let rook = piece as? Rook
+            XCTAssertNotNil(rook)
+            XCTAssertEqual(rook?.team, .white)
         }
         
-        blackLukes.forEach { piece in
-            let luke = piece as? Luke
-            XCTAssertNotNil(luke)
-            XCTAssertEqual(luke?.team, .black)
+        blackRooks.forEach { piece in
+            let rook = piece as? Rook
+            XCTAssertNotNil(rook)
+            XCTAssertEqual(rook?.team, .black)
         }
     }
     
