@@ -59,7 +59,9 @@ class Board {
         return false
     }
 
-    func display() {
-        // TODO: 1-rank부터 8-rank까지 rank 문자열 배열로 보드 위에 체스말을 리턴
+    func display() -> String {
+        return self.pieces.map { row in
+            return row.reduce("", { $0 + ($1?.displayModel.displayString ?? ".") })
+        }.joined(separator: "\n")
     }
 }

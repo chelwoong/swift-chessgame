@@ -12,8 +12,19 @@ protocol PieceType {
     
     var team: Team { get }
     var score: Int { get }
+    var displayModel: PiecePresentation { get }
     
     func movablePositions() -> [ChessPosition]
+}
+
+enum Team {
+    
+    case black
+    case white
+}
+
+struct PiecePresentation {
+    var displayString: String
 }
 
 struct ChessPosition: Equatable {
@@ -74,12 +85,6 @@ struct ChessPosition: Equatable {
     }
 }
 
-enum Team {
-    
-    case black
-    case white
-}
-
 struct Pawn: PieceType {
     
     let team: Team
@@ -92,6 +97,12 @@ struct Pawn: PieceType {
             self.position.left(),
             self.position.right()
         ].compactMap { $0 }
+    }
+    
+    var displayModel: PiecePresentation {
+        return PiecePresentation(
+            displayString: self.team == .white ? "\u{2659}" : "\u{265F}"
+        )
     }
 }
 
@@ -108,6 +119,12 @@ struct Knight: PieceType {
             self.position.down()?.bottomLeftDiagonal(),
             self.position.down()?.bottomRightDiagonal(),
         ].compactMap { $0 }
+    }
+    
+    var displayModel: PiecePresentation {
+        return PiecePresentation(
+            displayString: self.team == .white ? "\u{2658}" : "\u{265E}"
+        )
     }
 }
 
@@ -142,6 +159,12 @@ struct Bishop: PieceType {
         
         return movablePositions
     }
+    
+    var displayModel: PiecePresentation {
+        return PiecePresentation(
+            displayString: self.team == .white ? "\u{2657}" : "\u{265D}"
+        )
+    }
 }
 
 struct Rook: PieceType {
@@ -174,6 +197,12 @@ struct Rook: PieceType {
         }
         
         return movablePositions
+    }
+    
+    var displayModel: PiecePresentation {
+        return PiecePresentation(
+            displayString: self.team == .white ? "\u{2656}" : "\u{265C}"
+        )
     }
 }
 
@@ -227,5 +256,11 @@ struct Queen: PieceType {
         }
         
         return movablePositions
+    }
+    
+    var displayModel: PiecePresentation {
+        return PiecePresentation(
+            displayString: self.team == .white ? "\u{2655}" : "\u{265B}"
+        )
     }
 }

@@ -134,4 +134,23 @@ class BoardTests: XCTestCase {
         XCTAssertNotNil(blackQueen as? Queen)
         XCTAssertEqual(blackQueen?.team, .black)
     }
+    
+    func test_display_init_board() {
+        // when
+        let displayString = self.sut.display()
+        
+        // then
+        XCTAssertEqual(displayString,
+            """
+            ♖♘♗.♕♗♘♖
+            ♙♙♙♙♙♙♙♙
+            ........
+            ........
+            ........
+            ........
+            ♟♟♟♟♟♟♟♟
+            ♜♞♝.♛♝♞♜
+            """
+        )
+    }
 }
