@@ -12,7 +12,8 @@ protocol PieceType {
     
     var team: Team { get }
     var score: Int { get }
-    var position: ChessPosition { get set }
+    
+    func movablePositions() -> [ChessPosition]
 }
 
 struct ChessPosition {
@@ -40,6 +41,10 @@ struct Pawn: PieceType {
     let team: Team
     let score = 1
     var position: ChessPosition
+    
+    func movablePositions() -> [ChessPosition] {
+        return []
+    }
 }
 
 struct Knight: PieceType {
@@ -47,6 +52,10 @@ struct Knight: PieceType {
     let team: Team
     let score = 3
     var position: ChessPosition
+    
+    func movablePositions() -> [ChessPosition] {
+        return []
+    }
 }
 
 struct Bishop: PieceType {
@@ -54,6 +63,10 @@ struct Bishop: PieceType {
     let team: Team
     let score = 3
     var position: ChessPosition
+    
+    func movablePositions() -> [ChessPosition] {
+        return []
+    }
 }
 
 struct Luke: PieceType {
@@ -61,6 +74,10 @@ struct Luke: PieceType {
     let team: Team
     let score = 5
     var position: ChessPosition
+    
+    func movablePositions() -> [ChessPosition] {
+        return []
+    }
 }
 
 struct Queen: PieceType {
@@ -68,4 +85,8 @@ struct Queen: PieceType {
     let team: Team
     let score = 9
     var position: ChessPosition
+    
+    func movablePositions() -> [ChessPosition] {
+        return []
+    }
 }

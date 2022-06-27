@@ -12,6 +12,9 @@ class Board {
     
     private var pieces: [[PieceType?]]
     
+    private(set) var whiteScore = 0
+    private(set) var blackScore = 0
+    
     init() {
         var pieces = [[PieceType?]]()
         
@@ -50,5 +53,13 @@ class Board {
     
     func findPiece(at position: ChessPosition) -> PieceType? {
         return self.pieces[position.row.rawValue][position.column.rawValue]
+    }
+    
+    func movePiece(from curr: ChessPosition, to dest: ChessPosition) -> Bool {
+        return false
+    }
+
+    func display() {
+        // TODO: 1-rank부터 8-rank까지 rank 문자열 배열로 보드 위에 체스말을 리턴
     }
 }
