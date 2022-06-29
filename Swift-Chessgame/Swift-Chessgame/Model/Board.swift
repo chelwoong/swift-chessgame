@@ -24,7 +24,7 @@ class Board {
             let isPawnRow = file == .two || file == .seven
             if isPawnRow {
                 let pawnRow = ChessPosition.Rank.allCases.map { rank in
-                    return Pawn(team: team, position: ChessPosition(row: file, column: rank))
+                    return Pawn(team: team)
                 }
                 pieces.append(pawnRow)
                 continue
@@ -33,14 +33,14 @@ class Board {
             let isFirstRankOfEachTeam = file == .one || file == .eight
             if isFirstRankOfEachTeam {
                 pieces.append([
-                    Rook(team: team, position: ChessPosition(row: file, column: .a)),
-                    Knight(team: team, position: ChessPosition(row: file, column: .b)),
-                    Bishop(team: team, position: ChessPosition(row: file, column: .c)),
+                    Rook(team: team),
+                    Knight(team: team),
+                    Bishop(team: team),
                     nil,
-                    Queen(team: team, position: ChessPosition(row: file, column: .e)),
-                    Bishop(team: team, position: ChessPosition(row: file, column: .f)),
-                    Knight(team: team, position: ChessPosition(row: file, column: .g)),
-                    Rook(team: team, position: ChessPosition(row: file, column: .h))
+                    Queen(team: team),
+                    Bishop(team: team),
+                    Knight(team: team),
+                    Rook(team: team)
                 ])
                 continue
             }
@@ -51,11 +51,19 @@ class Board {
         self.pieces = pieces
     }
     
-    func findPiece(at position: ChessPosition) -> PieceType? {
-        return self.pieces[position.row.rawValue][position.column.rawValue]
+    func movablePositions(at position: ChessPosition) -> [ChessPosition] {
+        // TODO: 
+        return []
+    }
+    
+    private func isMovableRoute(_ route: PieceRoute) -> Bool {
+        return route.step
+            .filter({ self.pieces[$0] != nil })
+            .isEmpty
     }
     
     func movePiece(from curr: ChessPosition, to dest: ChessPosition) -> Bool {
+        // TODO:
         return false
     }
 
@@ -63,5 +71,16 @@ class Board {
         return self.pieces.map { row in
             return row.reduce("", { $0 + ($1?.displayModel.displayString ?? ".") })
         }.joined(separator: "\n")
+    }
+}
+
+private extension Array where Element == [PieceType?] {
+    
+    subscript (_ position: ChessPosition) -> PieceType? {
+        if let piece = self[position.row.rawValue][position.column.rawValue] {
+            return piece
+        } else {
+            return nil
+        }
     }
 }
