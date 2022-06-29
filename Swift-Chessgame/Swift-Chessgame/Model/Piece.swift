@@ -14,7 +14,7 @@ protocol PieceType {
     var score: Int { get }
     var displayModel: PiecePresentation { get }
     
-    func movableRoute() -> [PieceRoute]
+    func movableRoute(at: ChessPosition) -> [PieceRoute]
 }
 
 enum Team {
@@ -137,10 +137,9 @@ struct Pawn: PieceType {
     
     let team: Team
     let score = 1
-    var position: ChessPosition
     
-    func movableRoute() -> [PieceRoute] {
-        let route = PieceRoute(position: self.position)
+    func movableRoute(at position: ChessPosition) -> [PieceRoute] {
+        let route = PieceRoute(position: position)
         if team == .black {
             return [
                 route.moveTo(.left),
@@ -168,10 +167,9 @@ struct Knight: PieceType {
     
     let team: Team
     let score = 3
-    var position: ChessPosition
     
-    func movableRoute() -> [PieceRoute] {
-        let route = PieceRoute(position: self.position)
+    func movableRoute(at position: ChessPosition) -> [PieceRoute] {
+        let route = PieceRoute(position: position)
         return [
             route.moveTo(.up)?.moveTo(.upperLeftDiagonal),
             route.moveTo(.up)?.moveTo(.upperRightDiagonal),
@@ -191,10 +189,9 @@ struct Bishop: PieceType {
     
     let team: Team
     let score = 3
-    var position: ChessPosition
     
-    func movableRoute() -> [PieceRoute] {
-        let route = PieceRoute(position: self.position)
+    func movableRoute(at position: ChessPosition) -> [PieceRoute] {
+        let route = PieceRoute(position: position)
         return [
             route.moveTo(.upperLeftDiagonal),
             route.moveTo(.upperRightDiagonal),
@@ -214,10 +211,9 @@ struct Rook: PieceType {
     
     let team: Team
     let score = 5
-    var position: ChessPosition
     
-    func movableRoute() -> [PieceRoute] {
-        let route = PieceRoute(position: self.position)
+    func movableRoute(at position: ChessPosition) -> [PieceRoute] {
+        let route = PieceRoute(position: position)
         return [
             route.moveTo(.up),
             route.moveTo(.left),
@@ -237,10 +233,9 @@ struct Queen: PieceType {
     
     let team: Team
     let score = 9
-    var position: ChessPosition
     
-    func movableRoute() -> [PieceRoute] {
-        let route = PieceRoute(position: self.position)
+    func movableRoute(at position: ChessPosition) -> [PieceRoute] {
+        let route = PieceRoute(position: position)
         return [
             route.moveTo(.up),
             route.moveTo(.upperLeftDiagonal),
