@@ -35,6 +35,10 @@ struct PieceRoute: Equatable {
     
     private(set) var step = [ChessPosition]()
     
+    var destination: ChessPosition {
+        return step.last ?? self.piecePosition
+    }
+    
     private var piecePosition: ChessPosition
     
     private var origin: ChessPosition {
@@ -75,7 +79,7 @@ struct PieceRoute: Equatable {
     }
 }
 
-struct ChessPosition: Equatable {
+struct ChessPosition: Equatable, CustomStringConvertible {
     
     var row: File
     var column: Rank
@@ -86,6 +90,10 @@ struct ChessPosition: Equatable {
     
     enum Rank: Int, CaseIterable {
         case a = 0, b, c, d, e, f, g, h
+    }
+    
+    var description: String {
+        return "(R\(row.rawValue+1), \(column.rawValue+1))"
     }
     
     func up() -> ChessPosition? {
@@ -191,13 +199,41 @@ struct Bishop: PieceType {
     let score = 3
     
     func movableRoute(at position: ChessPosition) -> [PieceRoute] {
-        let route = PieceRoute(position: position)
-        return [
-            route.moveTo(.upperLeftDiagonal),
-            route.moveTo(.upperRightDiagonal),
-            route.moveTo(.bottomLeftDiagonal),
-            route.moveTo(.bottomRightDiagonal)
-        ].compactMap { $0 }
+        var routes = [PieceRoute]()
+        
+        var current = PieceRoute(position: position)
+        while let next = current.moveTo(.upperLeftDiagonal) {
+            current = next
+        }
+        if !current.step.isEmpty {
+            routes.append(current)
+        }
+        
+        current = PieceRoute(position: position)
+        while let next = current.moveTo(.bottomLeftDiagonal) {
+            current = next
+        }
+        if !current.step.isEmpty {
+            routes.append(current)
+        }
+        
+        current = PieceRoute(position: position)
+        while let next = current.moveTo(.bottomRightDiagonal) {
+            current = next
+        }
+        if !current.step.isEmpty {
+            routes.append(current)
+        }
+        
+        current = PieceRoute(position: position)
+        while let next = current.moveTo(.upperRightDiagonal) {
+            current = next
+        }
+        if !current.step.isEmpty {
+            routes.append(current)
+        }
+        
+        return routes
     }
     
     var displayModel: PiecePresentation {
@@ -213,13 +249,41 @@ struct Rook: PieceType {
     let score = 5
     
     func movableRoute(at position: ChessPosition) -> [PieceRoute] {
-        let route = PieceRoute(position: position)
-        return [
-            route.moveTo(.up),
-            route.moveTo(.left),
-            route.moveTo(.down),
-            route.moveTo(.right)
-        ].compactMap { $0 }
+        var routes = [PieceRoute]()
+        
+        var current = PieceRoute(position: position)
+        while let next = current.moveTo(.up) {
+            current = next
+        }
+        if !current.step.isEmpty {
+            routes.append(current)
+        }
+        
+        current = PieceRoute(position: position)
+        while let next = current.moveTo(.left) {
+            current = next
+        }
+        if !current.step.isEmpty {
+            routes.append(current)
+        }
+        
+        current = PieceRoute(position: position)
+        while let next = current.moveTo(.down) {
+            current = next
+        }
+        if !current.step.isEmpty {
+            routes.append(current)
+        }
+        
+        current = PieceRoute(position: position)
+        while let next = current.moveTo(.right) {
+            current = next
+        }
+        if !current.step.isEmpty {
+            routes.append(current)
+        }
+        
+        return routes
     }
     
     var displayModel: PiecePresentation {
@@ -235,17 +299,73 @@ struct Queen: PieceType {
     let score = 9
     
     func movableRoute(at position: ChessPosition) -> [PieceRoute] {
-        let route = PieceRoute(position: position)
-        return [
-            route.moveTo(.up),
-            route.moveTo(.upperLeftDiagonal),
-            route.moveTo(.left),
-            route.moveTo(.bottomLeftDiagonal),
-            route.moveTo(.down),
-            route.moveTo(.bottomRightDiagonal),
-            route.moveTo(.right),
-            route.moveTo(.upperRightDiagonal),
-        ].compactMap { $0 }
+        var routes = [PieceRoute]()
+        
+        var current = PieceRoute(position: position)
+        while let next = current.moveTo(.up) {
+            current = next
+        }
+        if !current.step.isEmpty {
+            routes.append(current)
+        }
+        
+        current = PieceRoute(position: position)
+        while let next = current.moveTo(.upperLeftDiagonal) {
+            current = next
+        }
+        if !current.step.isEmpty {
+            routes.append(current)
+        }
+        
+        current = PieceRoute(position: position)
+        while let next = current.moveTo(.left) {
+            current = next
+        }
+        if !current.step.isEmpty {
+            routes.append(current)
+        }
+        
+        current = PieceRoute(position: position)
+        while let next = current.moveTo(.bottomLeftDiagonal) {
+            current = next
+        }
+        if !current.step.isEmpty {
+            routes.append(current)
+        }
+        
+        current = PieceRoute(position: position)
+        while let next = current.moveTo(.down) {
+            current = next
+        }
+        if !current.step.isEmpty {
+            routes.append(current)
+        }
+        
+        current = PieceRoute(position: position)
+        while let next = current.moveTo(.bottomRightDiagonal) {
+            current = next
+        }
+        if !current.step.isEmpty {
+            routes.append(current)
+        }
+        
+        current = PieceRoute(position: position)
+        while let next = current.moveTo(.right) {
+            current = next
+        }
+        if !current.step.isEmpty {
+            routes.append(current)
+        }
+        
+        current = PieceRoute(position: position)
+        while let next = current.moveTo(.upperRightDiagonal) {
+            current = next
+        }
+        if !current.step.isEmpty {
+            routes.append(current)
+        }
+        
+        return routes
     }
     
     var displayModel: PiecePresentation {

@@ -51,22 +51,48 @@ class Board {
         self.pieces = pieces
     }
     
-    func movablePositions(at position: ChessPosition) -> [ChessPosition] {
-        // TODO: 
-        return []
+    func findPiece(at position: ChessPosition) -> PieceType? {
+        return self.pieces[position]
     }
     
-    private func isMovableRoute(_ route: PieceRoute) -> Bool {
-        return route.step
-            .filter({ self.pieces[$0] != nil })
-            .isEmpty
+    func movablePositions(at position: ChessPosition) -> [ChessPosition] {
+        guard let piece = self.pieces[position] else {
+            return []
+        }
+        return piece.movableRoute(at: position)
+            .filter { self.isMovableRoute($0, for: piece.team) }
+            .flatMap { $0.step }
+    }
+    
+    private func isMovableRoute(_ route: PieceRoute, for team: Team) -> Bool {
+        if self.pieces[route.destination]?.team == team {
+            return false
+        }
+        for position in route.step.dropLast() {
+            if self.pieces[position] != nil {
+                return false
+            }
+        }
+        return true
     }
     
     func movePiece(from curr: ChessPosition, to dest: ChessPosition) -> Bool {
-        // TODO:
-        return false
+        guard let piece = self.pieces[curr] else {
+            return false
+        }
+        let canMove = piece.movableRoute(at: curr)
+            .filter { self.isMovableRoute($0, for: piece.team) }
+            .contains(where: { $0.destination == dest })
+        
+        if canMove {
+            self.pieces[curr.row.rawValue][curr.column.rawValue] = nil
+            self.pieces[dest.row.rawValue][dest.column.rawValue] = piece
+            return true
+        } else {
+            return false
+        }
     }
-
+    
     func display() -> String {
         return self.pieces.map { row in
             return row.reduce("", { $0 + ($1?.displayModel.displayString ?? ".") })
