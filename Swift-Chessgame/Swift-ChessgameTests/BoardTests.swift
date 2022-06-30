@@ -23,13 +23,12 @@ class BoardTests: XCTestCase {
     
     func test_empty_pieces_when_init_board() {
         // given
-        let emptyRanks = [3, 4, 5, 6]
-        let files = "ABCDEFGH"
+        let emptyFiles: [ChessPosition.File] = [.three, .four, .five, .six]
         
         // then
-        for rank in emptyRanks {
-            for file in files {
-                let piece = self.sut.findPiece(at: Position(rank: rank, file: String(file)))
+        for file in emptyFiles {
+            ChessPosition.Rank.allCases.forEach { rank in
+                let piece = self.sut.findPiece(at: ChessPosition(row: file, column: rank))
                 XCTAssertNil(piece)
             }
         }
@@ -37,52 +36,51 @@ class BoardTests: XCTestCase {
     
     func test_pawn_when_init_board() {
         // given
-        let pawnRanks = [2, 7]
-        let files = "ABCDEFGH"
+        let pawnFiles: [ChessPosition.File] = [.two, .seven]
         
         // then
-        for rank in pawnRanks {
-            for file in files {
-                let piece = self.sut.findPiece(at: Position(rank: rank, file: String(file)))
+        for file in pawnFiles {
+            ChessPosition.Rank.allCases.forEach { rank in
+                let piece = self.sut.findPiece(at: ChessPosition(row: file, column: rank))
                 XCTAssertNotNil(piece as? Pawn)
             }
         }
     }
     
-    func test_luke_when_init_board() {
+    func test_rook_when_init_board() {
         // given
-        let whiteLukes = [
-            self.sut.findPiece(at: Position(rank: 1, file: "A")),
-            self.sut.findPiece(at: Position(rank: 1, file: "H")),
+        let whiteRooks = [
+            self.sut.findPiece(at: ChessPosition(row: .one, column: .a)),
+            self.sut.findPiece(at: ChessPosition(row: .one, column: .h)),
         ]
-        let blackLukes = [
-            self.sut.findPiece(at: Position(rank: 8, file: "A")),
-            self.sut.findPiece(at: Position(rank: 8, file: "H")),
+        let blackRooks = [
+            self.sut.findPiece(at: ChessPosition(row: .eight, column: .a)),
+            self.sut.findPiece(at: ChessPosition(row: .eight, column: .h))
         ]
         
         // then
-        whiteLukes.forEach { piece in
-            let luke = piece as? Luke
-            XCTAssertNotNil(luke)
-            XCTAssertEqual(luke?.team, .white)
+        whiteRooks.forEach { piece in
+            let rook = piece as? Rook
+            XCTAssertNotNil(rook)
+            XCTAssertEqual(rook?.team, .white)
         }
         
-        blackLukes.forEach { piece in
-            let luke = piece as? Luke
-            XCTAssertNotNil(luke)
-            XCTAssertEqual(luke?.team, .black)
+        blackRooks.forEach { piece in
+            let rook = piece as? Rook
+            XCTAssertNotNil(rook)
+            XCTAssertEqual(rook?.team, .black)
         }
     }
     
     func test_knight_when_init_board() {
         // given
         let whiteKnights = [
-            self.sut.findPiece(at: Position(rank: 1, file: "B")),
-            self.sut.findPiece(at: Position(rank: 1, file: "G")),
+            self.sut.findPiece(at: ChessPosition(row: .one, column: .b)),
+            self.sut.findPiece(at: ChessPosition(row: .one, column: .g)),
         ]
         let blackKnights = [
-            self.sut.findPiece(at: Position(rank: 8, file: "B")),
-            self.sut.findPiece(at: Position(rank: 8, file: "G")),
+            self.sut.findPiece(at: ChessPosition(row: .eight, column: .b)),
+            self.sut.findPiece(at: ChessPosition(row: .eight, column: .g)),
         ]
         
         // then
@@ -102,12 +100,12 @@ class BoardTests: XCTestCase {
     func test_bishop_when_init_board() {
         // given
         let whiteBishops = [
-            self.sut.findPiece(at: Position(rank: 1, file: "C")),
-            self.sut.findPiece(at: Position(rank: 1, file: "F")),
+            self.sut.findPiece(at: ChessPosition(row: .one, column: .c)),
+            self.sut.findPiece(at: ChessPosition(row: .one, column: .f)),
         ]
         let blackBishops = [
-            self.sut.findPiece(at: Position(rank: 8, file: "C")),
-            self.sut.findPiece(at: Position(rank: 8, file: "F")),
+            self.sut.findPiece(at: ChessPosition(row: .eight, column: .c)),
+            self.sut.findPiece(at: ChessPosition(row: .eight, column: .f))
         ]
         
         // then
@@ -126,8 +124,8 @@ class BoardTests: XCTestCase {
     
     func test_queen_when_init_board() {
         // given
-        let whiteQueen = self.sut.findPiece(at: Position(rank: 1, file: "E"))
-        let blackQueen = self.sut.findPiece(at: Position(rank: 8, file: "E"))
+        let whiteQueen = self.sut.findPiece(at: ChessPosition(row: .one, column: .e))
+        let blackQueen = self.sut.findPiece(at: ChessPosition(row: .eight, column: .e))
         
         // then
         XCTAssertNotNil(whiteQueen as? Queen)
@@ -135,5 +133,24 @@ class BoardTests: XCTestCase {
         
         XCTAssertNotNil(blackQueen as? Queen)
         XCTAssertEqual(blackQueen?.team, .black)
+    }
+    
+    func test_display_init_board() {
+        // when
+        let displayString = self.sut.display()
+        
+        // then
+        XCTAssertEqual(displayString,
+            """
+            ♖♘♗.♕♗♘♖
+            ♙♙♙♙♙♙♙♙
+            ........
+            ........
+            ........
+            ........
+            ♟♟♟♟♟♟♟♟
+            ♜♞♝.♛♝♞♜
+            """
+        )
     }
 }
